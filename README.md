@@ -38,3 +38,7 @@
 
 ## block
 - [ ] bubbles combine into 2x2, 3x3 etc: look at create
+  
+## bubble machine block
+- [ ] blows bubbles based on setting
+- [ ] always reloads, dispences on redstone signal or punch(?)

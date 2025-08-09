@@ -3,13 +3,12 @@
 	"id": "blowing-bubbles",
 	"version": "${version}",
 	"name": "Blowing Bubbles",
-	"description": "This is an example description! Tell everyone what your mod is about!",
+	"description": "Colorful and useful bubbles are never boring",
 	"authors": [
 		"nml"
 	],
 	"contact": {
-		"homepage": "https://fabricmc.net/",
-		"sources": "https://github.com/FabricMC/fabric-example-mod"
+		"sources": "https://github.com/thenml/blowing-bubbles"
 	},
 	"license": "Apache-2.0",
 	"icon": "assets/blowing-bubbles/icon.png",
