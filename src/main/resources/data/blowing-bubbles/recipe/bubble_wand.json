@@ -1,0 +1,17 @@
+{
+	"type": "crafting_shaped",
+	"category": "equipment",
+	"key": {
+		"c": "copper_ingot",
+		"b": "breeze_rod",
+		"a": "amethyst_shard"
+	},
+	"pattern": [
+	  "c c",
+	  " b ",
+	  " a "
+	],
+	"result": {
+	  "id": "blowing-bubbles:bubble_wand"
+	}
+}

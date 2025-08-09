@@ -1,0 +1,38 @@
+{
+	"schemaVersion": 1,
+	"id": "blowing-bubbles",
+	"version": "${version}",
+	"name": "Blowing Bubbles",
+	"description": "This is an example description! Tell everyone what your mod is about!",
+	"authors": [
+		"nml"
+	],
+	"contact": {
+		"homepage": "https://fabricmc.net/",
+		"sources": "https://github.com/FabricMC/fabric-example-mod"
+	},
+	"license": "Apache-2.0",
+	"icon": "assets/blowing-bubbles/icon.png",
+	"environment": "*",
+	"entrypoints": {
+		"main": [
+			"net.nml.bubble.BlowingBubbles"
+		],
+		"client": [
+			"net.nml.bubble.BlowingBubblesClient"
+		]
+	},
+	"mixins": [
+		"blowing-bubbles.mixins.json",
+		{
+			"config": "blowing-bubbles.client.mixins.json",
+			"environment": "client"
+		}
+	],
+	"depends": {
+		"fabricloader": ">=0.16.14",
+		"minecraft": "~1.21.8",
+		"java": ">=21",
+		"fabric-api": "*"
+	}
+}
