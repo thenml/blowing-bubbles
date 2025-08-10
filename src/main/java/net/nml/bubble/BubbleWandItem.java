@@ -58,8 +58,9 @@ public class BubbleWandItem extends Item {
 		double y = -Math.sin(Math.toRadians(pitch));
 		double z = Math.cos(Math.toRadians(yaw)) * Math.cos(Math.toRadians(pitch));
 		
+		// TODO: add same mechanic as arrows to not hit the shooter
 		bubble.setVelocity(x * speed, y * speed, z * speed);
-		bubble.setPosition(bubble.getPos().add(bubble.getVelocity().multiply(8)));
+		bubble.setPosition(bubble.getPos().add(bubble.getVelocity().multiply(size * 6)));
 		bubble.calculateDimensions();
 		
 		world.spawnEntity(bubble);
@@ -77,7 +78,7 @@ public class BubbleWandItem extends Item {
 
 	public float getMaxBlowableSize(ItemStack stack) {
 		if (BlowingBubbles.getEnchantmentLevel(stack, ModRegistry.BUBBLE_BARRAGE_ENCHANTMENT_EFFECT) != -1) return 1.0f;
-		return 4.0f;
+		return 5.0f;
 	}
 
 	public float getSizePerTick() {

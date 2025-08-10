@@ -33,6 +33,7 @@ public class BubbleRenderer extends LivingEntityRenderer<BubbleEntity, BubbleRen
 		matrices.translate(0.0, 0.25, 0);
 		matrices.multiply(this.dispatcher.getRotation());
 		matrices.scale(0.5f, 0.5f, 0.5f);
+		// TODO: this renders behind entities in the bubble
 
 		MatrixStack.Entry positionMatrix = matrices.peek();
 		MatrixStack.Entry normalMatrix = matrices.peek();
@@ -57,13 +58,14 @@ public class BubbleRenderer extends LivingEntityRenderer<BubbleEntity, BubbleRen
 
 		matrices.pop(); // pop shine
 		
-		// bubble
+		// bubble		
 		float bubbleScale = getBubbleScale(state);
 		matrices.push();
 		matrices.scale(bubbleScale, bubbleScale, bubbleScale);
-		this.setupTransforms(state, matrices, state.bodyYaw, bubbleScale);
+		// this.setupTransforms(state, matrices, state.bodyYaw, bubbleScale);
 		
-		VertexConsumer base = vertex.getBuffer(RenderLayer.getEntityTranslucent(this.getTexture(state)));
+		// VertexConsumer base = vertex.getBuffer(RenderLayer.getEntityTranslucent(this.getTexture(state))); //TODO: player is invisible (look at slime?)
+		VertexConsumer base = vertex.getBuffer(RenderLayer.getEntityNoOutline(this.getTexture(state)));
 		this.getModel(state).render(matrices, base, light, OverlayTexture.DEFAULT_UV,
 		ColorHelper.withAlpha(0.5f * state.opacity, state.color));
 		

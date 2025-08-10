@@ -1,8 +1,10 @@
 {
 	"required": true,
-	"package": "net.nml.bubble.mixin.client",
+	"package": "net.nml.bubble.mixin",
 	"compatibilityLevel": "JAVA_21",
 	"client": [
+		"LivingEntityRendererMixin",
+		"LivingEntityRenderStateMixin"
 	],
 	"injectors": {
 		"defaultRequire": 1
