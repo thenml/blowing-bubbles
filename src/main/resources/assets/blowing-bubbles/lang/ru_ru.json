@@ -1,5 +1,6 @@
 {
 	"item.blowing-bubbles.bubble_wand": "Палочка для пузырьков",
 	"entity.blowing-bubbles.bubble": "Пузырь",
-	"enchantment.blowing-bubbles.bubble_barrage": "Шквал пузырей"
+	"enchantment.blowing-bubbles.bubble_barrage": "Шквал пузырей",
+	"item.blowing-bubbles.bubble_wand.rainbow": "Радужные пузыри"
 }

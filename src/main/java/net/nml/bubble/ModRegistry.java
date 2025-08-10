@@ -14,18 +14,29 @@ import net.minecraft.entity.SpawnGroup;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemGroups;
 import net.minecraft.item.Items;
+import net.minecraft.recipe.RecipeSerializer;
+import net.minecraft.recipe.SpecialCraftingRecipe;
 import net.minecraft.registry.Registries;
 import net.minecraft.registry.Registry;
 import net.minecraft.registry.RegistryKey;
 import net.minecraft.registry.RegistryKeys;
+import net.minecraft.registry.tag.TagKey;
 import net.minecraft.util.Identifier;
 import net.minecraft.util.Unit;
 
 public class ModRegistry {
 	public static final EntityType<BubbleEntity> BUBBLE = entity("bubble", EntityType.Builder.<BubbleEntity>create(BubbleEntity::new, SpawnGroup.CREATURE).dimensions(0.4f, 0.4f));
-	public static final Item BUBBLE_WAND = item("bubble_wand", BubbleWandItem::new, new Item.Settings());
+	public static final Item BUBBLE_WAND = item("bubble_wand", BubbleWandItem::new, new Item.Settings().maxCount(1).maxDamage(250).repairable(TagKey.of(RegistryKeys.ITEM, Identifier.of("c", "ingots/copper"))));
 	public static final RegistryKey<Enchantment> BUBBLE_BARRAGE_ENCHANTMENT = enchantment("bubble_barrage");
 	public static ComponentType<Unit> BUBBLE_BARRAGE_ENCHANTMENT_EFFECT = enchantmentEffect("bubble_barrage", Unit.CODEC);
+
+	public static final RecipeSerializer<BubbleWandEffectsRecipe> BUBBLE_WAND_EFFECTS_RECIPE_SERIALIZER = Registry.register(Registries.RECIPE_SERIALIZER, 
+		Identifier.of(BlowingBubbles.MOD_ID, "special_bubble_wand_effects"), new SpecialCraftingRecipe.SpecialRecipeSerializer<>(BubbleWandEffectsRecipe::new));
+	public static final ComponentType<BubbleWandEffectsComponent> BUBBLE_WAND_EFFECTS_COMPONENT = Registry.register(
+		Registries.DATA_COMPONENT_TYPE,
+		Identifier.of(BlowingBubbles.MOD_ID, "bubble_wand_effects"),
+		ComponentType.<BubbleWandEffectsComponent>builder().codec(BubbleWandEffectsComponent.CODEC).packetCodec(BubbleWandEffectsComponent.PACKET_CODEC).build()
+	);
 
 	private static <T extends Entity> EntityType<T> entity(String name, EntityType.Builder<T> builder) {
 		return Registry.register(
@@ -51,8 +62,6 @@ public class ModRegistry {
 
 	public static void initialize() {
 		FabricDefaultAttributeRegistry.register(BUBBLE, BubbleEntity.createLivingAttributes());
-		ItemGroupEvents.modifyEntriesEvent(ItemGroups.TOOLS).register(content -> {
-            content.add(BUBBLE_WAND);
-        });
+		ItemGroupEvents.modifyEntriesEvent(ItemGroups.TOOLS).register(content -> content.add(BUBBLE_WAND));
 	}
 }

@@ -22,14 +22,14 @@
 - [x] bubbles float on water, decay faster when touching a surface
 - [x] the reload time is proportional to blowing time
 
-## entering a bubble
-- [x] if the bubble can fit an entity, the entity gets inside the bubble
+## entering a bubble- [x] if the bubble can fit an entity, the entity gets inside the bubble
 - [x] you can slightly control the horizontal movement of the bubble, but not vertical
 - [x] if underwater in a bubble, you can control the vertical movement, and breathe underwater
+- [ ] easy break underwater
 
 ## enchantments
-- [ ] if the bubble was blown under an active effect, it gets put on the bubble
-- [ ] an effect bubble gives the effect indefinetally when inside, and creates a cloud when popped
+- [x] if the bubble was blown under an active effect, it gets put on the bubble
+- [x] an effect bubble gives the effect indefinetally when inside
 
 - [ ] faster blowing 1-3: bubbles gets bigger faster
 - [ ] stronger bubble 1-3: bubbles lasts longer and can withstand more damage

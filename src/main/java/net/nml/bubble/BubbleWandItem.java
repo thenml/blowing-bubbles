@@ -1,14 +1,19 @@
 package net.nml.bubble;
 
+import java.util.function.Consumer;
+
+import net.minecraft.component.type.TooltipDisplayComponent;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.consume.UseAction;
+import net.minecraft.item.tooltip.TooltipType;
 import net.minecraft.server.world.ServerWorld;
 import net.minecraft.sound.SoundCategory;
 import net.minecraft.sound.SoundEvents;
 import net.minecraft.stat.Stats;
+import net.minecraft.text.Text;
 import net.minecraft.util.ActionResult;
 import net.minecraft.util.Hand;
 import net.minecraft.util.math.MathHelper;
@@ -25,6 +30,7 @@ public class BubbleWandItem extends Item {
 		if (user instanceof PlayerEntity playerEntity) {
 			playerEntity.incrementStat(Stats.USED.getOrCreateStat(this));
 			if (!playerEntity.isInCreativeMode()) {
+				stack.damage(1, playerEntity);
 				playerEntity.getItemCooldownManager().set(stack, this.getCooldownTicks(useTicks));
 			}
 		}
@@ -62,6 +68,13 @@ public class BubbleWandItem extends Item {
 		bubble.setVelocity(x * speed, y * speed, z * speed);
 		bubble.setPosition(bubble.getPos().add(bubble.getVelocity().multiply(size * 6)));
 		bubble.calculateDimensions();
+
+		if (BubbleWandEffectsComponent.getColor(stack).isPresent()) {
+			bubble.setCustomColor(BubbleWandEffectsComponent.getColor(stack).get());
+		} else if (BubbleWandEffectsComponent.getRainbow(stack)) {
+			bubble.setCustomColor(BubbleEntity.rainbowColor(bubble.getRandom()));
+		}
+		bubble.setEffects(user.getStatusEffects());
 		
 		world.spawnEntity(bubble);
 		world.playSound(
@@ -126,5 +139,13 @@ public class BubbleWandItem extends Item {
 	@Override
 	public UseAction getUseAction(ItemStack stack) {
 		return UseAction.BLOCK;
+	}
+
+	@Override
+	public void appendTooltip(ItemStack stack, TooltipContext context, TooltipDisplayComponent displayComponent,
+			Consumer<Text> textConsumer, TooltipType type) {
+		super.appendTooltip(stack, context, displayComponent, textConsumer, type);
+		// what was the point of this? ig im missing something
+		stack.appendComponentTooltip(ModRegistry.BUBBLE_WAND_EFFECTS_COMPONENT, context, displayComponent, textConsumer, type);
 	}
 }

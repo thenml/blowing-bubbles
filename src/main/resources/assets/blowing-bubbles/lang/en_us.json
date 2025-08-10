@@ -1,5 +1,6 @@
 {
 	"item.blowing-bubbles.bubble_wand": "Bubble Wand",
 	"entity.blowing-bubbles.bubble": "Bubble",
-	"enchantment.blowing-bubbles.bubble_barrage": "Bubble Barrage"
+	"enchantment.blowing-bubbles.bubble_barrage": "Bubble Barrage",
+	"item.blowing-bubbles.bubble_wand.rainbow": "Rainbow Bubbles"
 }

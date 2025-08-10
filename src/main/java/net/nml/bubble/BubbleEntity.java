@@ -1,8 +1,12 @@
 package net.nml.bubble;
 
+import java.util.Collection;
+import java.util.Optional;
+
 import org.jetbrains.annotations.Nullable;
 
 import net.minecraft.block.BlockState;
+import net.minecraft.component.type.PotionContentsComponent;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityDimensions;
 import net.minecraft.entity.EntityPose;
@@ -14,6 +18,7 @@ import net.minecraft.entity.damage.DamageSource;
 import net.minecraft.entity.data.DataTracker;
 import net.minecraft.entity.data.TrackedData;
 import net.minecraft.entity.data.TrackedDataHandlerRegistry;
+import net.minecraft.entity.effect.StatusEffectInstance;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.particle.ParticleTypes;
 import net.minecraft.server.world.ServerWorld;
@@ -29,7 +34,10 @@ import net.minecraft.util.math.random.Random;
 import net.minecraft.world.World;
 
 public class BubbleEntity extends LivingEntity {
+	private PotionContentsComponent potion = PotionContentsComponent.DEFAULT;
 	private static final TrackedData<Integer> COLOR = DataTracker.registerData(BubbleEntity.class, TrackedDataHandlerRegistry.INTEGER);
+	private static final TrackedData<Integer> CUSTOM_COLOR = DataTracker.registerData(BubbleEntity.class, TrackedDataHandlerRegistry.INTEGER);
+	private static final TrackedData<Integer> TIME = DataTracker.registerData(BubbleEntity.class, TrackedDataHandlerRegistry.INTEGER);
 	private static final TrackedData<Integer> DURATION = DataTracker.registerData(BubbleEntity.class, TrackedDataHandlerRegistry.INTEGER);
 	private static final TrackedData<Float> SIZE = DataTracker.registerData(BubbleEntity.class, TrackedDataHandlerRegistry.FLOAT);
 	private static final TrackedData<Float> OPACITY = DataTracker.registerData(BubbleEntity.class, TrackedDataHandlerRegistry.FLOAT);
@@ -39,6 +47,7 @@ public class BubbleEntity extends LivingEntity {
 		super(entityType, world);
 		this.setDuration(randomDuration());
 		this.setRotation(this.random.nextFloat() * 360.0F, 0);
+		this.updateColor();
 	}
 
 	public BubbleEntity(World world, float size) {
@@ -58,7 +67,7 @@ public class BubbleEntity extends LivingEntity {
 			return;
 		}
 
-		if (!this.hasPassengers()) {
+		if (!this.hasPassengers() && !this.getWorld().isClient) {
 			this.calculateEntityInteractions();
 		}
 		super.tick();
@@ -67,18 +76,20 @@ public class BubbleEntity extends LivingEntity {
 		int duration = this.getDuration();
 
 		if (duration > 0) {
+			int v = 0;
 			if (!this.hasPassengers()) {
-				this.age++;
-				if (!this.hasEntityOnTop()) this.age++;
-				if (this.horizontalCollision ||	this.verticalCollision) this.age++;
+				v++;
+				if (!this.hasEntityOnTop()) v++;
+				if (this.horizontalCollision ||	this.verticalCollision) v++;
+				this.setTime(this.getTime() + v);
 			}
 
-			if (this.age >= duration) {
+			if (this.getTime() >= duration) {
 				this.setHealth(0);
 				this.setOpacity(0);
 			} else {
-				this.setHealth((duration - this.age) / 40f);
-				this.setOpacity((duration - this.age) / (float) duration);
+				this.setHealth((duration - this.getTime()) / 40f);
+				this.setOpacity((duration - this.getTime()) / (float) duration);
 			}
 		}
 	}
@@ -89,8 +100,9 @@ public class BubbleEntity extends LivingEntity {
 		this.setRotation(controllingPlayer.getYaw(), controllingPlayer.getPitch() * 0.5F);
 		this.lastYaw = this.bodyYaw = this.headYaw = this.getYaw();
 		controllingPlayer.setAir(controllingPlayer.getAir() + 2);
+		this.applyEffects(controllingPlayer);
 	}
-		
+
 	@Override
 	protected Vec3d getControlledMovementInput(PlayerEntity controllingPlayer, Vec3d movementInput) {
 		if (this.isTouchingWater()) {
@@ -157,8 +169,10 @@ public class BubbleEntity extends LivingEntity {
 			} else if (this.canEntityEnter(entity)) {
 				entity.startRiding(this);
 			} else {
-				double v = MathHelper.clamp(Math.max(entity.getHeight(), entity.getWidth()) - this.getWidth(), 0.0, 1.0);
-				this.age = v == 1.0 ? this.getDuration() : this.age + (int)(100 * v);
+				// double v = MathHelper.clamp(Math.max(entity.getHeight(), entity.getWidth()) - this.getWidth(), 0.0, 1.0);
+				// this.setTime(v == 1.0 ? this.getDuration() : this.getTime() + (int)(100 * v));
+				this.setTime(this.getDuration());
+				entity.setAir(entity.getMaxAir());
 			}
 		}
 	}
@@ -176,11 +190,68 @@ public class BubbleEntity extends LivingEntity {
 		if (this.isInvulnerableTo(world, source) || this.isDead()) {
 			return false;
 		}
-		this.age = this.getDuration();
-		if (this.age <= 0) {
+		this.setTime(this.getDuration());
+		if (this.getTime() <= 0) {
 			this.setHealth(0);
 		}
 		return true;
+	}
+	
+	@Override
+	public boolean canHaveStatusEffect(StatusEffectInstance effect) {
+		return false;
+	}
+	
+	@Override
+	public boolean addStatusEffect(StatusEffectInstance effect, Entity source) {
+		return this.addEffect(effect);
+	}
+
+	public boolean addEffect(StatusEffectInstance effect) {
+		StatusEffectInstance statusEffectInstance = null;
+		for (StatusEffectInstance e : this.potion.getEffects()) {
+			if (e.getEffectType().equals(effect.getEffectType())) {
+				statusEffectInstance = e;
+				break;
+			}
+		}
+		if (statusEffectInstance != null) {
+			if (!statusEffectInstance.upgrade(effect)) return false;
+
+			this.setPotionContents(PotionContentsComponent.DEFAULT);
+			for (StatusEffectInstance e : this.potion.getEffects()) {
+				if (!e.getEffectType().equals(effect.getEffectType())) {
+					this.setPotionContents(this.potion.with(e));
+				}
+			}
+			return true;
+		}
+		this.setPotionContents(this.potion.with(effect));
+		return true;
+	}
+
+	public void setEffects(Collection<StatusEffectInstance> collection) {
+		for (StatusEffectInstance statusEffectInstance : collection) {
+			this.setPotionContents(this.potion.with((new StatusEffectInstance(statusEffectInstance))));
+		}
+	}
+
+	public void applyEffects(LivingEntity entity) {
+		this.potion.apply(entity, this.getOpacity());
+	}
+
+	public void setPotionContents(PotionContentsComponent potionContentsComponent) {
+		this.potion = potionContentsComponent;
+		this.updateColor();
+	}
+
+	public void updateColor() {
+		int cc = this.dataTracker.get(CUSTOM_COLOR);
+		if (cc == 16) {
+			this.setColor(this.potion.getColor(this.getCustomColor()));
+		} else {
+			this.setColor(ColorHelper.mix(this.getCustomColor(), this.potion.getColor(-1)));
+		}
 	}
 
 	private int randomDuration() {
@@ -190,6 +261,14 @@ public class BubbleEntity extends LivingEntity {
 	public void setDuration(int duration) {
 		this.dataTracker.set(DURATION, duration);
 	}
+
+	public int getTime() {
+		return this.dataTracker.get(TIME);
+	}
+
+	public void setTime(int time) {
+		this.dataTracker.set(TIME, time);
+	}					
 
 	public int getDuration() {
 		return this.dataTracker.get(DURATION);
@@ -203,7 +282,7 @@ public class BubbleEntity extends LivingEntity {
 		return this.dataTracker.get(SIZE);
 	}
 
-	public void setColor(int color) {
+	private void setColor(int color) {
 		this.dataTracker.set(COLOR, color);
 	}
 
@@ -211,10 +290,21 @@ public class BubbleEntity extends LivingEntity {
 		return this.dataTracker.get(COLOR);
 	}
 
+	public void setCustomColor(int color) {
+		this.dataTracker.set(CUSTOM_COLOR, color);
+		this.updateColor();
+	}
+
+	public int getCustomColor() {
+		int cc = this.dataTracker.get(CUSTOM_COLOR);
+		return cc == 16 ? -14502401 : cc;
+	}
+
 	public void setOpacity(float opacity) {
 		this.dataTracker.set(OPACITY, MathHelper.clamp(opacity, 0.2f, 1.0f));
 	}
 
+	// aka percentage to pop, with min at 0.2f
 	public float getOpacity() {
 		return this.dataTracker.get(OPACITY);
 	}
@@ -278,8 +368,10 @@ public class BubbleEntity extends LivingEntity {
 		builder.add(HAS_ENTITY_ON_TOP, false);
 		builder.add(OPACITY, 1.0f);
 		builder.add(SIZE, 1.0f);
+		builder.add(TIME, 0);
 		builder.add(DURATION, 0);
-		builder.add(COLOR, ColorHelper.getArgb(34, 181, 255));
+		builder.add(COLOR, 0);
+		builder.add(CUSTOM_COLOR, 16);
 	}
 
 	@Override
@@ -294,30 +386,45 @@ public class BubbleEntity extends LivingEntity {
 	@Override
 	protected void writeCustomData(WriteView view) {
 		super.writeCustomData(view);
-		view.putInt("Age", this.age);
+		view.putInt("pop_time", this.getTime());
 		view.putInt("Duration", this.getDuration());
 		view.putFloat("Size", this.getSize());
-		view.putInt("Color", this.getColor());
+		if (this.dataTracker.get(CUSTOM_COLOR) != 16) {
+			view.putInt("CustomColor", this.getCustomColor());
+		}
+		if (!this.potion.equals(PotionContentsComponent.DEFAULT)) {
+			view.put("potion_contents", PotionContentsComponent.CODEC, this.potion);
+		}
 	}
 
 	@Override
 	protected void readCustomData(ReadView view) {
 		super.readCustomData(view);
-		this.age = view.getInt("Age", 0);
+		this.setTime(view.getInt("pop_time", 0));
 		this.dataTracker.set(SIZE, view.getFloat("Size", 1));
 
-		int duration = view.getInt("Duration", -1);
-		if (duration >= 0) this.setDuration(duration);
+		Optional<Integer> duration = view.getOptionalInt("Duration");
+		if (duration.isPresent()) this.setDuration(duration.get());
 
-		int color = view.getInt("Color", -1);
-		if (color >= 0) this.setColor(color);
-		else if (color == -2) this.setColor(randomColor(this.random));
+		Optional<Integer> color = view.getOptionalInt("CustomColor");
+		if (color.isPresent()) {
+			if (color.get() == 16) this.setCustomColor(rainbowColor(this.random));
+			else this.setCustomColor(color.get());
+		}
+
+		this.setPotionContents((PotionContentsComponent)view.read("potion_contents", PotionContentsComponent.CODEC).orElse(PotionContentsComponent.DEFAULT));
 	}
 
-	public static int randomColor(Random random) {
+	public static int rainbowColor(Random random) {
         float hue = random.nextFloat();
         float saturation = 0.4f + random.nextFloat() * 0.3f;
         float brightness = 0.7f + random.nextFloat() * 0.3f;
+        return MathHelper.hsvToRgb(hue, saturation, brightness);
+    }
+	public static int rainbowColor(float t) {
+		float hue = Math.abs(t % 3600) / 3600;
+        float saturation = 0.55f;
+        float brightness = 0.85f;
         return MathHelper.hsvToRgb(hue, saturation, brightness);
     }
 
