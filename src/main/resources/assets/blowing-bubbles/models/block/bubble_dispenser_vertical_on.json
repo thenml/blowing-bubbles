@@ -1,0 +1,7 @@
+{
+	"parent": "block/orientable_vertical",
+	"textures": {
+	  "front": "blowing-bubbles:block/bubble_dispenser_front_vertical_on",
+	  "side": "block/furnace_top"
+	}
+}

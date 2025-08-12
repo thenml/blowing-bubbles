@@ -19,6 +19,9 @@
 		],
 		"client": [
 			"net.nml.bubble.BlowingBubblesClient"
+		],
+		"fabric-datagen": [
+			"net.nml.bubble.datagen.BlowingBubblesDataGenerator"
 		]
 	},
 	"mixins": [
@@ -33,5 +36,8 @@
 		"minecraft": "~1.21.8",
 		"java": ">=21",
 		"fabric-api": "*"
+	},
+	"recommends": {
+		"fusion": "*"
 	}
 }

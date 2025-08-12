@@ -10,6 +10,7 @@ import net.minecraft.util.math.random.Random;
 public record BarrageBubblesEnchantmentEffect(EnchantmentLevelBasedValue amount) implements EnchantmentValueEffect {
 	public static final MapCodec<BarrageBubblesEnchantmentEffect> CODEC = RecordCodecBuilder.mapCodec(instance ->
 			instance.group(
+				// help idk how to remove this
 				EnchantmentLevelBasedValue.CODEC.fieldOf("amount").forGetter(BarrageBubblesEnchantmentEffect::amount)
 			).apply(instance, BarrageBubblesEnchantmentEffect::new)
 	);

@@ -1,0 +1,12 @@
+{
+	"model": {
+	  "type": "model",
+	  "model": "blowing-bubbles:block/brown_bubble_block",
+	  "tints": [
+		{
+			"type": "constant",
+			"value": 8606770
+		}
+	  ]
+	}
+}

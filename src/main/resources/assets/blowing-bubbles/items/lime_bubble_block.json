@@ -1,0 +1,12 @@
+{
+	"model": {
+	  "type": "model",
+	  "model": "blowing-bubbles:block/lime_bubble_block",
+	  "tints": [
+		{
+			"type": "constant",
+			"value": 8439583
+		}
+	  ]
+	}
+}

@@ -3,13 +3,12 @@
 	"category": "equipment",
 	"key": {
 		"c": "copper_ingot",
-		"b": "breeze_rod",
 		"a": "amethyst_shard"
 	},
 	"pattern": [
-	  "c c",
-	  " b ",
-	  " a "
+	  "a a",
+	  " c ",
+	  " c "
 	],
 	"result": {
 	  "id": "blowing-bubbles:bubble_wand"

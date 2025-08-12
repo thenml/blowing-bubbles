@@ -1,0 +1,21 @@
+{
+	"type": "block",
+	"pools": [
+	  {
+		"bonus_rolls": 0.0,
+		"conditions": [
+		  {
+			"condition": "survives_explosion"
+		  }
+		],
+		"entries": [
+		  {
+			"type": "item",
+			"name": "blowing-bubbles:gray_bubble_block"
+		  }
+		],
+		"rolls": 1.0
+	  }
+	],
+	"random_sequence": "blocks/cobblestone"
+}

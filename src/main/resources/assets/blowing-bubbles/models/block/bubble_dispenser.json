@@ -1,0 +1,8 @@
+{
+	"parent": "block/orientable",
+	"textures": {
+		"front": "blowing-bubbles:block/bubble_dispenser_front",
+		"side": "block/furnace_side",
+		"top": "block/furnace_top"
+	}
+}

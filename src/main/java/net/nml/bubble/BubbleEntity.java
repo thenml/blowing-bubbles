@@ -295,9 +295,13 @@ public class BubbleEntity extends LivingEntity {
 		this.updateColor();
 	}
 
+	public static int getDefaultColor() {
+		return ColorHelper.getArgb(80, 200, 255);
+	}
+
 	public int getCustomColor() {
 		int cc = this.dataTracker.get(CUSTOM_COLOR);
-		return cc == 16 ? -14502401 : cc;
+		return cc == 16 ? getDefaultColor() : cc;
 	}
 
 	public void setOpacity(float opacity) {

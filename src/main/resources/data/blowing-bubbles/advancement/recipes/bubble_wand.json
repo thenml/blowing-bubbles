@@ -1,11 +1,11 @@
 {
 	"parent": "recipes/root",
 	"criteria": {
-		"has_breeze_rod": {
+		"has_amethyst_shard": {
 			"conditions": {
 				"items": [
 					{
-						"items": "breeze_rod"
+						"items": "amethyst_shard"
 					}
 				]
 			},
@@ -21,7 +21,7 @@
 	"requirements": [
 		[
 			"has_the_recipe",
-			"has_breeze_rod"
+			"has_amethyst_shard"
 		]
 	],
 	"rewards": {

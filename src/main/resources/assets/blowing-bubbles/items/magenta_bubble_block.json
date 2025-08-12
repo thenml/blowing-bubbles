@@ -1,0 +1,12 @@
+{
+	"model": {
+	  "type": "model",
+	  "model": "blowing-bubbles:block/magenta_bubble_block",
+	  "tints": [
+		{
+			"type": "constant",
+			"value": 13061821
+		}
+	  ]
+	}
+}

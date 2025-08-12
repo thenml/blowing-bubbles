@@ -1,0 +1,48 @@
+{
+	"variants": {
+	  "facing=down,powered=false": {
+		"model": "blowing-bubbles:block/bubble_dispenser_vertical",
+		"x": 180
+	  },
+	  "facing=down,powered=true": {
+		"model": "blowing-bubbles:block/bubble_dispenser_vertical_on",
+		"x": 180
+	  },
+	  "facing=east,powered=false": {
+		"model": "blowing-bubbles:block/bubble_dispenser",
+		"y": 90
+	  },
+	  "facing=east,powered=true": {
+		"model": "blowing-bubbles:block/bubble_dispenser_on",
+		"y": 90
+	  },
+	  "facing=north,powered=false": {
+		"model": "blowing-bubbles:block/bubble_dispenser"
+	  },
+	  "facing=north,powered=true": {
+		"model": "blowing-bubbles:block/bubble_dispenser_on"
+	  },
+	  "facing=south,powered=false": {
+		"model": "blowing-bubbles:block/bubble_dispenser",
+		"y": 180
+	  },
+	  "facing=south,powered=true": {
+		"model": "blowing-bubbles:block/bubble_dispenser_on",
+		"y": 180
+	  },
+	  "facing=up,powered=false": {
+		"model": "blowing-bubbles:block/bubble_dispenser_vertical"
+	  },
+	  "facing=up,powered=true": {
+		"model": "blowing-bubbles:block/bubble_dispenser_vertical_on"
+	  },
+	  "facing=west,powered=false": {
+		"model": "blowing-bubbles:block/bubble_dispenser",
+		"y": 270
+	  },
+	  "facing=west,powered=true": {
+		"model": "blowing-bubbles:block/bubble_dispenser_on",
+		"y": 270
+	  }
+	}
+  }

@@ -5,8 +5,10 @@
 
 - todo: custom pop particle
 - todo: blow sound
+- todo: use datagen
 - todo: standing on bubbles is still buggy
 - bug: reload (unload) desync
+- todo: optimize entities
 - todo: todos
 
 # ideas
@@ -22,7 +24,8 @@
 - [x] bubbles float on water, decay faster when touching a surface
 - [x] the reload time is proportional to blowing time
 
-## entering a bubble- [x] if the bubble can fit an entity, the entity gets inside the bubble
+## entering a bubble
+- [x] if the bubble can fit an entity, the entity gets inside the bubble
 - [x] you can slightly control the horizontal movement of the bubble, but not vertical
 - [x] if underwater in a bubble, you can control the vertical movement, and breathe underwater
 - [ ] easy break underwater
@@ -39,11 +42,9 @@
 
 ## block
 - [ ] bubbles combine into 2x2, 3x3 etc: look at create
-- [ ] terraria bubble
+- [x] terraria bubble
   
-## bubble machine block
-- [ ] blows bubbles based on setting
-- [ ] always reloads, dispences on redstone signal or punch(?)
+- [ ] bubble machine block
 
 ## config
 - [ ] model settings
