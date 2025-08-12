@@ -40,6 +40,9 @@ import net.minecraft.util.Unit;
 import net.nml.bubble.block.BubbleBlock;
 import net.nml.bubble.block.BubbleDispenserBlock;
 import net.nml.bubble.block.BubbleDispenserBlockEntity;
+import net.nml.bubble.item.BubbleWandEffectsComponent;
+import net.nml.bubble.item.BubbleWandEffectsRecipe;
+import net.nml.bubble.item.BubbleWandItem;
 
 public class ModRegistry {
 	public static final EntityType<BubbleEntity> BUBBLE = entity("bubble",

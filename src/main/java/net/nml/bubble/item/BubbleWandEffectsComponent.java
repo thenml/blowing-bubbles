@@ -1,4 +1,4 @@
-package net.nml.bubble;
+package net.nml.bubble.item;
 
 import java.util.List;
 import java.util.Locale;
@@ -20,6 +20,8 @@ import net.minecraft.network.codec.PacketCodecs;
 import net.minecraft.text.Text;
 import net.minecraft.util.Formatting;
 import net.minecraft.util.math.ColorHelper;
+import net.nml.bubble.BubbleEntity;
+import net.nml.bubble.ModRegistry;
 
 public record BubbleWandEffectsComponent(Optional<Integer> color, Optional<Boolean> rainbow) implements TooltipAppender {
 	public static final Codec<BubbleWandEffectsComponent> CODEC = RecordCodecBuilder.create(builder -> {

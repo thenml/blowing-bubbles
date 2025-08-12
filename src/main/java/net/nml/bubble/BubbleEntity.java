@@ -4,13 +4,16 @@ import java.util.Collection;
 import java.util.Optional;
 
 import org.jetbrains.annotations.Nullable;
+import org.joml.Vector3f;
 
 import net.minecraft.block.BlockState;
+import net.minecraft.block.Blocks;
 import net.minecraft.component.type.PotionContentsComponent;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityDimensions;
 import net.minecraft.entity.EntityPose;
 import net.minecraft.entity.EntityType;
+import net.minecraft.entity.ItemEntity;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.MovementType;
 import net.minecraft.entity.attribute.DefaultAttributeContainer;
@@ -20,11 +23,13 @@ import net.minecraft.entity.data.TrackedData;
 import net.minecraft.entity.data.TrackedDataHandlerRegistry;
 import net.minecraft.entity.effect.StatusEffectInstance;
 import net.minecraft.entity.player.PlayerEntity;
+import net.minecraft.item.ItemStack;
 import net.minecraft.particle.ParticleTypes;
 import net.minecraft.server.world.ServerWorld;
 import net.minecraft.storage.ReadView;
 import net.minecraft.storage.WriteView;
 import net.minecraft.util.Arm;
+import net.minecraft.util.Pair;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.Box;
 import net.minecraft.util.math.ColorHelper;
@@ -32,6 +37,7 @@ import net.minecraft.util.math.MathHelper;
 import net.minecraft.util.math.Vec3d;
 import net.minecraft.util.math.random.Random;
 import net.minecraft.world.World;
+import net.nml.bubble.block.BubbleBlock;
 
 public class BubbleEntity extends LivingEntity {
 	private PotionContentsComponent potion = PotionContentsComponent.DEFAULT;
@@ -254,6 +260,22 @@ public class BubbleEntity extends LivingEntity {
 		}
 	}
 
+	public BubbleBlock getBubbleBlock() {
+		float maxDistance = Float.MAX_VALUE;
+		BubbleBlock block = null;
+
+		Vector3f colorVector = ColorHelper.toVector(this.getColor());
+		for (Pair<BubbleBlock, String> pair : ModRegistry.BUBBLE_BLOCKS) {
+			int blockColor = pair.getLeft().getColor().getEntityColor();
+			float distance = ColorHelper.toVector(blockColor).distance(colorVector);
+			if (distance < maxDistance) {
+				maxDistance = distance;
+				block = pair.getLeft();
+			}
+		};
+		return block;
+	}
+
 	private int randomDuration() {
 		return 40 * (7 + this.random.nextInt(6));
 	}
@@ -346,6 +368,19 @@ public class BubbleEntity extends LivingEntity {
 	@Override
 	protected float getVelocityMultiplier() {
 		return 1f; // modified in travel()
+	}
+
+	@Override
+	protected void onBlockCollision(BlockState state) {
+		super.onBlockCollision(state);
+		if (state.isOf(Blocks.HONEY_BLOCK)) {
+			this.setTime(this.getTime() + 2);
+			this.setVelocity(this.getVelocity().multiply(0.5));
+			if (this.getTime() >= this.getDuration() - 10) {
+				this.getWorld().spawnEntity(new ItemEntity(this.getWorld(), this.getX(), this.getY(), this.getZ(), new ItemStack(this.getBubbleBlock())));
+				this.remove(Entity.RemovalReason.KILLED);
+			}
+		}
 	}
 	
 	@Override

@@ -1,4 +1,4 @@
-package net.nml.bubble;
+package net.nml.bubble.item;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -13,6 +13,7 @@ import net.minecraft.recipe.book.CraftingRecipeCategory;
 import net.minecraft.recipe.input.CraftingRecipeInput;
 import net.minecraft.registry.RegistryWrapper;
 import net.minecraft.world.World;
+import net.nml.bubble.ModRegistry;
 
 public class BubbleWandEffectsRecipe extends SpecialCraftingRecipe {
 	private static final Ingredient BUBBLE_WAND = Ingredient.ofItem(ModRegistry.BUBBLE_WAND);

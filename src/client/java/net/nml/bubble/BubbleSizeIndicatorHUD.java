@@ -7,6 +7,7 @@ import net.minecraft.client.gui.DrawContext;
 import net.minecraft.client.render.RenderTickCounter;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.Identifier;
+import net.nml.bubble.item.BubbleWandItem;
 
 public class BubbleSizeIndicatorHUD implements HudElement {
 	private static final Identifier PIXEL_TEXTURE = Identifier.of(BlowingBubbles.MOD_ID, "pixel");

@@ -1,4 +1,4 @@
-package net.nml.bubble;
+package net.nml.bubble.item;
 
 import java.util.function.Consumer;
 
@@ -18,6 +18,9 @@ import net.minecraft.util.ActionResult;
 import net.minecraft.util.Hand;
 import net.minecraft.util.math.MathHelper;
 import net.minecraft.world.World;
+import net.nml.bubble.BlowingBubbles;
+import net.nml.bubble.BubbleEntity;
+import net.nml.bubble.ModRegistry;
 
 public class BubbleWandItem extends Item {
 	public BubbleWandItem(Settings settings) {

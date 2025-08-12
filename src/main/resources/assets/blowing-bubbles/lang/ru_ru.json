@@ -2,5 +2,23 @@
 	"item.blowing-bubbles.bubble_wand": "Палочка для пузырьков",
 	"entity.blowing-bubbles.bubble": "Пузырь",
 	"enchantment.blowing-bubbles.bubble_barrage": "Шквал пузырей",
-	"item.blowing-bubbles.bubble_wand.rainbow": "Радужные пузыри"
+	"item.blowing-bubbles.bubble_wand.rainbow": "Радужные пузыри",
+	
+	"item.blowing-bubbles.bubble_dispenser": "Раздатчик пузырей",
+	"item.blowing-bubbles.white_bubble_block": "Белый пузырь",
+	"item.blowing-bubbles.orange_bubble_block": "Оранжевый пузырь",
+	"item.blowing-bubbles.magenta_bubble_block": "Пурпурный пузырь",
+	"item.blowing-bubbles.light_blue_bubble_block": "Голубой пузырь",
+	"item.blowing-bubbles.yellow_bubble_block": "Желтый пузырь",
+	"item.blowing-bubbles.lime_bubble_block": "Лаймовый пузырь",
+	"item.blowing-bubbles.pink_bubble_block": "Розовый пузырь",
+	"item.blowing-bubbles.gray_bubble_block": "Серый пузырь",
+	"item.blowing-bubbles.light_gray_bubble_block": "Светло-серый пузырь",
+	"item.blowing-bubbles.cyan_bubble_block": "Голубой пузырь",
+	"item.blowing-bubbles.purple_bubble_block": "Фиолетовый пузырь",
+	"item.blowing-bubbles.blue_bubble_block": "Синий пузырь",
+	"item.blowing-bubbles.brown_bubble_block": "Коричневый пузырь",
+	"item.blowing-bubbles.green_bubble_block": "Зеленый пузырь",
+	"item.blowing-bubbles.red_bubble_block": "Красный пузырь",
+	"item.blowing-bubbles.black_bubble_block": "Черный пузырь"
 }
