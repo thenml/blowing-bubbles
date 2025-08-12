@@ -11,7 +11,14 @@
 - todo: optimize entities
 - todo: todos
 
-# ideas
+## rendering issues
+
+can @anyone help please
+
+- bubble glint renders in the center of the bubble: can render behind riders and messes up view from inside
+- bubble opacity renders behind player, water, etc
+
+# tasklist
 
 ## basic
 - [x] hold to blow a bubble, the longer the hold, the bigger the bubble
@@ -38,13 +45,12 @@
 - [ ] stronger bubble 1-3: bubbles lasts longer and can withstand more damage
 - [ ] single bubble: the bubble is infinite until the player blows another one or unloaded
 - [x] bubble barrage: bubbles automatically release when they are small
-- [ ] solid bubble: bubbles solidify after a bit
 
 ## block
-- [ ] bubbles combine into 2x2, 3x3 etc: look at create
+- [?] bubbles combine into 2x2, 3x3 etc: look at create
 - [x] terraria bubble
   
-- [ ] bubble machine block
+- [x] bubble machine block
 
 ## config
 - [ ] model settings
