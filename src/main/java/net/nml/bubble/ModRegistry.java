@@ -17,7 +17,7 @@ import net.minecraft.block.entity.BlockEntityType;
 import net.minecraft.block.enums.NoteBlockInstrument;
 import net.minecraft.block.piston.PistonBehavior;
 import net.minecraft.component.ComponentType;
-import net.minecraft.enchantment.Enchantment;
+import net.minecraft.enchantment.effect.EnchantmentValueEffect;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityType;
 import net.minecraft.entity.SpawnGroup;
@@ -53,6 +53,7 @@ public class ModRegistry {
 		new Item.Settings()
 			.maxCount(1)
 			.maxDamage(250)
+			.enchantable(1)
 			.repairable(TagKey.of(RegistryKeys.ITEM, Identifier.of("c", "ingots/copper"))));
 
 	public static final List<Pair<BubbleBlock, String>> BUBBLE_BLOCKS = new ArrayList<>();
@@ -83,8 +84,10 @@ public class ModRegistry {
 
 	public static final BlockEntityType<BubbleDispenserBlockEntity> BUBBLE_DISPENSER_BLOCK_ENTITY = blockEntityType("bubble_dispenser", FabricBlockEntityTypeBuilder.<BubbleDispenserBlockEntity>create(BubbleDispenserBlockEntity::new, BUBBLE_DISPENSER).build());
 
-	public static final RegistryKey<Enchantment> BUBBLE_BARRAGE_ENCHANTMENT = enchantment("bubble_barrage");
 	public static ComponentType<Unit> BUBBLE_BARRAGE_ENCHANTMENT_EFFECT = enchantmentEffect("bubble_barrage", Unit.CODEC);
+	public static ComponentType<Unit> INFINITE_BUBBLE_ENCHANTMENT_EFFECT = enchantmentEffect("infinite_bubble", Unit.CODEC);
+	public static ComponentType<EnchantmentValueEffect> BIGGER_BUBBLES_ENCHANTMENT_EFFECT = enchantmentEffect("bigger_bubbles", EnchantmentValueEffect.CODEC);
+	// public static ComponentType<EnchantmentValueEffect> STRONGER_BUBBLES_ENCHANTMENT_EFFECT = enchantmentEffect("stronger_bubbles", EnchantmentValueEffect.CODEC);
 
 	public static final RecipeSerializer<BubbleWandEffectsRecipe> BUBBLE_WAND_EFFECTS_RECIPE_SERIALIZER = Registry.register(Registries.RECIPE_SERIALIZER, 
 		Identifier.of(BlowingBubbles.MOD_ID, "special_bubble_wand_effects"), new SpecialCraftingRecipe.SpecialRecipeSerializer<>(BubbleWandEffectsRecipe::new));
@@ -150,12 +153,12 @@ public class ModRegistry {
 	  return Registry.register(Registries.BLOCK_ENTITY_TYPE, Identifier.of(BlowingBubbles.MOD_ID, path), blockEntityType);
 	}
 
-	private static RegistryKey<Enchantment> enchantment(String name) {
-		return RegistryKey.of(RegistryKeys.ENCHANTMENT, Identifier.of(BlowingBubbles.MOD_ID, name));
-	}
+	// private static RegistryKey<Enchantment> enchantment(String name) {
+	// 	return RegistryKey.of(RegistryKeys.ENCHANTMENT, Identifier.of(BlowingBubbles.MOD_ID, name));
+	// }
 
 	private static <T> ComponentType<T> enchantmentEffect(String name, Codec<T> codec) {
-		// TODO: i know this is incorrect but i dont know what is correct
+		// this is probably incorrect :shrug:
 		return Registry.register(Registries.ENCHANTMENT_EFFECT_COMPONENT_TYPE, Identifier.of(BlowingBubbles.MOD_ID, name), ComponentType.<T>builder().codec(codec).build());
 	}
 

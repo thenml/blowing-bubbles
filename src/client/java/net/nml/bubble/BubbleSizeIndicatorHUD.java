@@ -22,7 +22,7 @@ public class BubbleSizeIndicatorHUD implements HudElement {
         if (!(stack.getItem() instanceof BubbleWandItem wand)) return;
         if (!client.player.isUsingItem()) return;
 
-        float size = wand.getSize(wand.getUseTicks(client.player.getItemUseTime(), stack));
+        float size = wand.getSize(wand.getUseTicks(client.player.getItemUseTime(), stack), stack);
 		int radius = (int)(size * 5);
 
 		int x = (context.getScaledWindowWidth() - 1) / 2;

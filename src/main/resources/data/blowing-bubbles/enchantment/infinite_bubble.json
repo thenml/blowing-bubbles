@@ -1,10 +1,10 @@
 {
 	"anvil_cost": 8,
 	"description": {
-	  "translate": "enchantment.blowing-bubbles.bubble_barrage"
+	  "translate": "enchantment.blowing-bubbles.infinite_bubble"
 	},
 	"effects": {
-	  "blowing-bubbles:bubble_barrage": {}
+	  "blowing-bubbles:infinite_bubble": {}
 	},
 	"max_cost": {
 	  "base": 50,
@@ -16,7 +16,7 @@
 	  "per_level_above_first": 0
 	},
 	"exclusive_set": [
-		"blowing-bubbles:infinite_bubble"
+		"blowing-bubbles:bubble_barrage"
 	],
 	"slots": ["hand"],
 	"supported_items": "blowing-bubbles:bubble_wand",

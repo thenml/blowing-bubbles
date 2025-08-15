@@ -1,5 +1,5 @@
 package net.nml.bubble.datagen;
-
+/*
 import org.jetbrains.annotations.Nullable;
 
 import com.google.gson.JsonObject;
@@ -105,3 +105,4 @@ public class BubbleBlockConnectionPredicate implements ConnectionPredicate {
         }
     }
 }
+*/

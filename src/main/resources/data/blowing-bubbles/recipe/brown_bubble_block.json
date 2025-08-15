@@ -1,0 +1,18 @@
+{
+	"type": "crafting_shaped",
+	"category": "building",
+	"group": "blowing-bubbles:bubble_block",
+	"key": {
+		"#": "#blowing-bubbles:bubble_blocks",
+		"X": "brown_dye"
+	},
+	"pattern": [
+		"###",
+		"#X#",
+		"###"
+	],
+	"result": {
+		"count": 8,
+		"id": "blowing-bubbles:brown_bubble_block"
+	}
+  }

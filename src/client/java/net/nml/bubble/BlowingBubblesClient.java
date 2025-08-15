@@ -1,6 +1,6 @@
 package net.nml.bubble;
 
-import com.supermartijn642.fusion.api.predicate.FusionPredicateRegistry;
+// import com.supermartijn642.fusion.api.predicate.FusionPredicateRegistry;
 
 import net.fabricmc.api.ClientModInitializer;
 import net.fabricmc.fabric.api.client.rendering.v1.BlockRenderLayerMap;
@@ -13,7 +13,7 @@ import net.minecraft.client.render.BlockRenderLayer;
 import net.minecraft.util.Identifier;
 import net.minecraft.util.Pair;
 import net.nml.bubble.block.BubbleBlock;
-import net.nml.bubble.datagen.BubbleBlockConnectionPredicate;
+// import net.nml.bubble.datagen.BubbleBlockConnectionPredicate;
 import net.nml.bubble.renderer.BubbleModelMedium;
 import net.nml.bubble.renderer.BubbleModelSmall;
 import net.nml.bubble.renderer.BubbleRenderer;
@@ -21,7 +21,7 @@ import net.nml.bubble.renderer.BubbleRenderer;
 public class BlowingBubblesClient implements ClientModInitializer {
 	@Override
 	public void onInitializeClient() {
-		FusionPredicateRegistry.registerConnectionPredicate(Identifier.of(BlowingBubbles.MOD_ID, "bubble_block"), BubbleBlockConnectionPredicate.SERIALIZER);
+		// FusionPredicateRegistry.registerConnectionPredicate(Identifier.of(BlowingBubbles.MOD_ID, "bubble_block"), BubbleBlockConnectionPredicate.SERIALIZER);
 
 		EntityModelLayerRegistry.registerModelLayer(BubbleModelSmall.LAYER, BubbleModelSmall::getTexturedModelData);
 		EntityModelLayerRegistry.registerModelLayer(BubbleModelMedium.LAYER, BubbleModelMedium::getTexturedModelData);

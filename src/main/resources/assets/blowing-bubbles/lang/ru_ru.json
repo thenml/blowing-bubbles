@@ -2,6 +2,11 @@
 	"item.blowing-bubbles.bubble_wand": "Палочка для пузырьков",
 	"entity.blowing-bubbles.bubble": "Пузырь",
 	"enchantment.blowing-bubbles.bubble_barrage": "Шквал пузырей",
+	"enchantment.blowing-bubbles.bubble_barrage.desc": "Надувает маленькие пузыри непрерывно",
+	"enchantment.blowing-bubbles.infinite_bubble": "Бесконечный пузырь",
+	"enchantment.blowing-bubbles.infinite_bubble.desc": "На каждого игрока может быть только один пузырь, но он не может закончиться",
+	"enchantment.blowing-bubbles.bigger_bubbles": "Большие пузыри",
+	"enchantment.blowing-bubbles.bigger_bubbles.desc": "Пузыри надуваются больше и быстрее",
 	"item.blowing-bubbles.bubble_wand.rainbow": "Радужные пузыри",
 	
 	"item.blowing-bubbles.bubble_dispenser": "Раздатчик пузырей",

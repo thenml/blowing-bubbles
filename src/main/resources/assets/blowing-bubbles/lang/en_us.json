@@ -2,6 +2,11 @@
 	"item.blowing-bubbles.bubble_wand": "Bubble Wand",
 	"entity.blowing-bubbles.bubble": "Bubble",
 	"enchantment.blowing-bubbles.bubble_barrage": "Bubble Barrage",
+	"enchantment.blowing-bubbles.bubble_barrage.desc": "Blows small bubbles non-stop",
+	"enchantment.blowing-bubbles.infinite_bubble": "Forever Bubble",
+	"enchantment.blowing-bubbles.infinite_bubble.desc": "There can exist only one bubble per player, but it can't expire",
+	"enchantment.blowing-bubbles.bigger_bubbles": "Bigger Bubbles",
+	"enchantment.blowing-bubbles.bigger_bubbles.desc": "Bubbles blow bigger and faster",
 	"item.blowing-bubbles.bubble_wand.rainbow": "Rainbow Bubbles",
 
 	"item.blowing-bubbles.bubble_dispenser": "Bubble Dispenser",

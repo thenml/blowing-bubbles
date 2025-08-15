@@ -1,0 +1,28 @@
+{
+	"anvil_cost": 2,
+	"description": {
+	  "translate": "enchantment.blowing-bubbles.bigger_bubbles"
+	},
+	"effects": {
+	  "blowing-bubbles:bigger_bubbles": {
+		"type": "minecraft:add",
+		"value": {
+		  "type": "minecraft:linear",
+		  "base": -1,
+		  "per_level_above_first": -1
+		}
+	  }
+	},
+	"max_cost": {
+	  "base": 55,
+	  "per_level_above_first": 8
+	},
+	"max_level": 3,
+	"min_cost": {
+	  "base": 5,
+	  "per_level_above_first": 8
+	},
+	"slots": ["hand"],
+	"supported_items": "blowing-bubbles:bubble_wand",
+	"weight": 5
+  }

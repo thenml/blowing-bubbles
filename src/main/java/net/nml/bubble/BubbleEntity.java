@@ -14,6 +14,7 @@ import net.minecraft.entity.EntityDimensions;
 import net.minecraft.entity.EntityPose;
 import net.minecraft.entity.EntityType;
 import net.minecraft.entity.ItemEntity;
+import net.minecraft.entity.LazyEntityReference;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.MovementType;
 import net.minecraft.entity.attribute.DefaultAttributeContainer;
@@ -48,7 +49,8 @@ public class BubbleEntity extends LivingEntity {
 	private static final TrackedData<Float> SIZE = DataTracker.registerData(BubbleEntity.class, TrackedDataHandlerRegistry.FLOAT);
 	private static final TrackedData<Float> OPACITY = DataTracker.registerData(BubbleEntity.class, TrackedDataHandlerRegistry.FLOAT);
 	private static final TrackedData<Boolean> HAS_ENTITY_ON_TOP = DataTracker.registerData(BubbleEntity.class, TrackedDataHandlerRegistry.BOOLEAN);
-
+	protected static final TrackedData<Optional<LazyEntityReference<LivingEntity>>> OWNER_UUID = DataTracker.registerData(BubbleEntity.class, TrackedDataHandlerRegistry.LAZY_ENTITY_REFERENCE);
+	
 	public BubbleEntity(EntityType<? extends BubbleEntity> entityType, World world) {
 		super(entityType, world);
 		this.setDuration(randomDuration());
@@ -59,6 +61,7 @@ public class BubbleEntity extends LivingEntity {
 	public BubbleEntity(World world, float size) {
 		this(ModRegistry.BUBBLE, world);
 		this.setSize(size);
+		this.setDuration(randomDuration());
 	}
 
 	@Override
@@ -88,6 +91,8 @@ public class BubbleEntity extends LivingEntity {
 				if (!this.hasEntityOnTop()) v++;
 				if (this.horizontalCollision ||	this.verticalCollision) v++;
 				this.setTime(this.getTime() + v);
+			} else if (this.getRandom().nextBoolean()) {
+				this.setTime(this.getTime() + 1);
 			}
 
 			if (this.getTime() >= duration) {
@@ -277,7 +282,7 @@ public class BubbleEntity extends LivingEntity {
 	}
 
 	private int randomDuration() {
-		return 40 * (7 + this.random.nextInt(6));
+		return 40 * (7 + this.random.nextInt(6)) + (int)((this.getSize() - 1f) * 20);
 	}
 
 	public void setDuration(int duration) {
@@ -333,6 +338,15 @@ public class BubbleEntity extends LivingEntity {
 	// aka percentage to pop, with min at 0.2f
 	public float getOpacity() {
 		return this.dataTracker.get(OPACITY);
+	}
+	
+	public void setOwner(@Nullable LivingEntity owner) {
+		this.dataTracker.set(OWNER_UUID, Optional.ofNullable(owner).map(LazyEntityReference::new));
+	}
+
+	@Nullable
+	public LazyEntityReference<LivingEntity> getOwnerReference() {
+		return (LazyEntityReference<LivingEntity>)this.dataTracker.get(OWNER_UUID).orElse(null);
 	}
 	
 	@Override
@@ -411,6 +425,7 @@ public class BubbleEntity extends LivingEntity {
 		builder.add(DURATION, 0);
 		builder.add(COLOR, 0);
 		builder.add(CUSTOM_COLOR, 16);
+		builder.add(OWNER_UUID, Optional.empty());
 	}
 
 	@Override
@@ -434,6 +449,8 @@ public class BubbleEntity extends LivingEntity {
 		if (!this.potion.equals(PotionContentsComponent.DEFAULT)) {
 			view.put("potion_contents", PotionContentsComponent.CODEC, this.potion);
 		}
+
+		LazyEntityReference.writeData(this.getOwnerReference(), view, "Owner");
 	}
 
 	@Override
@@ -449,6 +466,15 @@ public class BubbleEntity extends LivingEntity {
 		if (color.isPresent()) {
 			if (color.get() == 16) this.setCustomColor(rainbowColor(this.random));
 			else this.setCustomColor(color.get());
+		}
+
+		LazyEntityReference<LivingEntity> lazyEntityReference = LazyEntityReference.fromDataOrPlayerName(view, "Owner", this.getWorld());
+		if (lazyEntityReference != null) {
+			try {
+				this.dataTracker.set(OWNER_UUID, Optional.of(lazyEntityReference));
+			} catch (Throwable t) {}
+		} else {
+			this.dataTracker.set(OWNER_UUID, Optional.empty());
 		}
 
 		this.setPotionContents((PotionContentsComponent)view.read("potion_contents", PotionContentsComponent.CODEC).orElse(PotionContentsComponent.DEFAULT));

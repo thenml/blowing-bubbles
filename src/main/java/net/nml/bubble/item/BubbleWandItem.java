@@ -1,5 +1,7 @@
 package net.nml.bubble.item;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.function.Consumer;
 
 import net.minecraft.component.type.TooltipDisplayComponent;
@@ -16,6 +18,7 @@ import net.minecraft.stat.Stats;
 import net.minecraft.text.Text;
 import net.minecraft.util.ActionResult;
 import net.minecraft.util.Hand;
+import net.minecraft.util.TypeFilter;
 import net.minecraft.util.math.MathHelper;
 import net.minecraft.world.World;
 import net.nml.bubble.BlowingBubbles;
@@ -42,7 +45,7 @@ public class BubbleWandItem extends Item {
 			this.usageTick(world, user, stack, remainingUseTicks);
 		} else {
 			if (world instanceof ServerWorld serverWorld) {
-				this.shoot(user, serverWorld, stack, this.getSize(useTicks), 0.1);
+				this.shoot(user, serverWorld, stack, this.getSize(useTicks, stack), 0.1);
 			}
 		}
 		return true;
@@ -78,6 +81,13 @@ public class BubbleWandItem extends Item {
 			bubble.setCustomColor(BubbleEntity.rainbowColor(bubble.getRandom()));
 		}
 		bubble.setEffects(user.getStatusEffects());
+		bubble.setOwner(user);
+		if (BlowingBubbles.getEnchantmentLevel(stack, ModRegistry.INFINITE_BUBBLE_ENCHANTMENT_EFFECT) != -1) {
+			List<BubbleEntity> list = new ArrayList<>();
+			world.collectEntitiesByType(TypeFilter.instanceOf(BubbleEntity.class), (e) -> e.getDuration() == 0 && e.getOwnerReference().uuidEquals(user), list, 1);
+			if (!list.isEmpty()) list.getFirst().kill(world);
+			bubble.setDuration(0);
+		}
 		
 		world.spawnEntity(bubble);
 		world.playSound(
@@ -94,24 +104,27 @@ public class BubbleWandItem extends Item {
 
 	public float getMaxBlowableSize(ItemStack stack) {
 		if (BlowingBubbles.getEnchantmentLevel(stack, ModRegistry.BUBBLE_BARRAGE_ENCHANTMENT_EFFECT) != -1) return 1.0f;
+		int i = BlowingBubbles.getEnchantmentLevel(stack, ModRegistry.BIGGER_BUBBLES_ENCHANTMENT_EFFECT);
+		if (i != -1) return 5.0f + i * 1.5f;
 		return 5.0f;
 	}
 
-	public float getSizePerTick() {
-		// TODO: enchantment
+	public float getSizePerTick(ItemStack stack) {
+		int i = BlowingBubbles.getEnchantmentLevel(stack, ModRegistry.BIGGER_BUBBLES_ENCHANTMENT_EFFECT);
+		if (i != -1) return MathHelper.clamp(20.0f - i * 2f, 1f, 20f);
 		return 20.0f;
 	}
 
 	public int getUseTicks(int useTicks, ItemStack stack) {
-		return MathHelper.clamp(useTicks, 0, (int)((this.getMaxBlowableSize(stack) - 1) * this.getSizePerTick()));
+		return MathHelper.clamp(useTicks, 0, (int)((this.getMaxBlowableSize(stack) - 1) * this.getSizePerTick(stack)));
 	}
 
 	public int getUseTicks(int remainingUseTicks, ItemStack stack, LivingEntity user) {
 		return this.getUseTicks(this.getMaxUseTime(stack, user) - remainingUseTicks, stack);
 	}
 
-	public float getSize(int useTicks) {
-		return 1f + useTicks / this.getSizePerTick();
+	public float getSize(int useTicks, ItemStack stack) {
+		return 1f + useTicks / this.getSizePerTick(stack);
 	}
 
 	public int getCooldownTicks(int useTicks) {
@@ -135,7 +148,10 @@ public class BubbleWandItem extends Item {
 		if (remainingUseTicks % 2 != 0) return;
 
 		if (world instanceof ServerWorld serverWorld) {
-			this.shoot(user, serverWorld, stack, 1f, 0.2);
+			float s = 1f;
+			int i = BlowingBubbles.getEnchantmentLevel(stack, ModRegistry.BIGGER_BUBBLES_ENCHANTMENT_EFFECT);
+			if (i != -1) s += i * 0.5f;
+			this.shoot(user, serverWorld, stack, s, 0.2);
 		}
 	}
 	

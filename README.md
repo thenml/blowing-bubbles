@@ -5,10 +5,12 @@
 
 - todo: custom pop particle
 - todo: blow sound
-- todo: use datagen
 - todo: standing on bubbles is still buggy
-- bug: reload (unload) desync
 - todo: optimize entities
+- todo: use datagen
+- bug: reload (unload) desync
+- bug: heart particles when hitting duration 0 bubbles
+- bug: can enter small bubbles when swimming
 - todo: todos
 
 ## rendering issues
@@ -41,13 +43,12 @@ can @anyone help please
 - [x] if the bubble was blown under an active effect, it gets put on the bubble
 - [x] an effect bubble gives the effect indefinetally when inside
 
-- [ ] faster blowing 1-3: bubbles gets bigger faster
+- [x] faster blowing 1-3: bubbles gets bigger faster
 - [ ] stronger bubble 1-3: bubbles lasts longer and can withstand more damage
-- [ ] single bubble: the bubble is infinite until the player blows another one or unloaded
+- [x] single bubble: the bubble is infinite until the player blows another one or unloaded
 - [x] bubble barrage: bubbles automatically release when they are small
 
 ## block
-- [?] bubbles combine into 2x2, 3x3 etc: look at create
 - [x] terraria bubble
   
 - [x] bubble machine block
