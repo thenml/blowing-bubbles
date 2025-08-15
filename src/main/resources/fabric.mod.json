@@ -3,7 +3,7 @@
 	"id": "blowing-bubbles",
 	"version": "${version}",
 	"name": "Blowing Bubbles",
-	"description": "Colorful and useful bubbles are never boring",
+	"description": "Colorful bubbles are never boring",
 	"authors": [
 		"nml"
 	],

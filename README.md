@@ -1,56 +1,41 @@
-4 meter bubble wr
-------
+![icon](/src/main/resources/assets/blowing-bubbles/icon.png)
 
-# dev
+# Blowing Bubbles
 
-- todo: blow sound
-- todo: standing on bubbles is still buggy
-- todo: optimize entities
-- refactor: use datagen
-- bug: reload (unload) desync
-- bug: heart particles when hitting duration 0 bubbles
-- bug: can enter small bubbles when swimming
-- todo: todos
+![Made for ModFest: Toybox](https://badger-api-staging.worldwidepixel.ca/cozy?gradientStart=841f38&gradientEnd=5b0017&lineOne=Made%20for&lineTwo=ModFest:%20Toybox&colourOne=FFFFFF&colourTwo=ff7db6&iconUrl=https://files.catbox.moe/n0xw9t)
 
-## rendering issues
+Colorfull bubbles that can you can use as platforms, blocks, and effect stations!
 
-can @anyone help please
+## Features
 
-- bubble glint renders in the center of the bubble: can render behind riders and messes up view from inside
-- bubble opacity renders behind player, water, etc
+### Bubble Wand
 
-# tasklist
+-	Craftable using 2 copper ingots and 2 amethyst shards
+-   Hold to blow a bubble - longer hold means bigger bubbles
+-   Bubble size indicator at the crosshair
+-   Bubbles pop when hit or after 7–12 seconds
+-   Reload time scales with blowing time
+-   Dye your bubbles with dye, or make the rainbow with a diamond
 
-## basic
-- [x] hold to blow a bubble, the longer the hold, the bigger the bubble
-- [x] bulbble size indicator at the crosshair
-- [x] on release it pushes out ~1.5 blocks
-- [x] smaller bubbles float upwards
-- [x] you can stand on bubbles
-- [x] bubbles get destroyed on hit, or after 7-12 seconds
-- [x] if the bubble gets interacted with (stood on, entered), it slows its decay by 2x
-- [x] bubbles float on water, decay faster when touching a surface
-- [x] the reload time is proportional to blowing time
+### Bubbles
 
-## entering a bubble
-- [x] if the bubble can fit an entity, the entity gets inside the bubble
-- [x] you can slightly control the horizontal movement of the bubble, but not vertical
-- [x] if underwater in a bubble, you can control the vertical movement, and breathe underwater
-- [ ] easy break underwater
+-   You can stand on bubbles
+-   Large enough bubbles can trap entities
+-   Limited horizontal control while inside, underwater bubbles allow vertical control and infinite air supply
 
-## enchantments
-- [x] if the bubble was blown under an active effect, it gets put on the bubble
-- [x] an effect bubble gives the effect indefinetally when inside
+### Enchantments & Effects
 
-- [x] faster blowing 1-3: bubbles gets bigger faster
-- [ ] stronger bubble 1-3: bubbles lasts longer and can withstand more damage
-- [x] single bubble: the bubble is infinite until the player blows another one or unloaded
-- [x] bubble barrage: bubbles automatically release when they are small
+-   Blowing a bubble under an active potion effect transfers it to the bubble
+-   Effect bubbles give infinite effect while inside
+-   **Faster Blowing I–III**: Grow bubbles faster
+-   **Infinite Bubble**: Bubble lasts forever until replaced
+-   **Bubble Barrage**: Automatically releases small bubbles
 
-## block
-- [x] terraria bubble
-  
-- [x] bubble machine block
+### Blocks
 
-## config
-- [x] model settings
+-   Terraria-style decorative bubble: abtained by blowing bubbles into honey
+-   Bubble Machine block for automated bubble creation: the longer the pulse, the bigger the bubble
+
+### Config
+
+-   Customizable bubble models
