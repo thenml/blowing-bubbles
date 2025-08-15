@@ -53,4 +53,4 @@ can @anyone help please
 - [x] bubble machine block
 
 ## config
-- [ ] model settings
+- [x] model settings

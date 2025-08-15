@@ -11,16 +11,23 @@ import net.minecraft.util.Identifier;
 import net.minecraft.util.math.ColorHelper;
 import net.nml.bubble.BlowingBubbles;
 import net.nml.bubble.BubbleEntity;
+import net.nml.bubble.Config;
 
 public class BubbleRenderer extends LivingEntityRenderer<BubbleEntity, BubbleRenderState, BubbleModelAbstract> {
-	private static final Identifier BASE_TEXTURE_SMALL = Identifier.of(BlowingBubbles.MOD_ID, "textures/entity/bubble/bubble_sm.png");
-	private static final Identifier BASE_TEXTURE_MEDIUM = Identifier.of(BlowingBubbles.MOD_ID, "textures/entity/bubble/bubble_md.png");
+	private static final Identifier BASE_TEXTURE_FAST = Identifier.of(BlowingBubbles.MOD_ID, "textures/entity/bubble/bubble_fast.png");
+	private static final Identifier BASE_TEXTURE_SIMPLE = Identifier.of(BlowingBubbles.MOD_ID, "textures/entity/bubble/bubble_simple.png");
+	private static final Identifier BASE_TEXTURE_SMALL = Identifier.of(BlowingBubbles.MOD_ID, "textures/entity/bubble/bubble_small.png");
+	private static final Identifier BASE_TEXTURE_MEDIUM = Identifier.of(BlowingBubbles.MOD_ID, "textures/entity/bubble/bubble_medium.png");
 	private static final Identifier SHINE_TEXTURE = Identifier.of(BlowingBubbles.MOD_ID, "textures/entity/bubble/shine.png");
 
+	private final BubbleModelAbstract model_fast;
+	private final BubbleModelAbstract model_simple;
 	private final BubbleModelAbstract model_medium;
 
 	public BubbleRenderer(EntityRendererFactory.Context ctx) {
 		super(ctx, new BubbleModelSmall(ctx.getPart(BubbleModelSmall.LAYER)), 0.0f);
+		this.model_fast = new BubbleModelFast(ctx.getPart(BubbleModelFast.LAYER));
+		this.model_simple = new BubbleModelSimple(ctx.getPart(BubbleModelSimple.LAYER));
 		this.model_medium = new BubbleModelMedium(ctx.getPart(BubbleModelMedium.LAYER));
 	}
 
@@ -80,8 +87,7 @@ public class BubbleRenderer extends LivingEntityRenderer<BubbleEntity, BubbleRen
 	}
 
 	private boolean isMedium(BubbleRenderState state) {
-		// return true;
-		return state.size >= 2.5f;
+		return Config.bubbleQuality == Config.ModelQuality.QUALITY && state.size >= 2.5f;
 	}
 
 	private float getScale(BubbleRenderState state) {
@@ -96,6 +102,8 @@ public class BubbleRenderer extends LivingEntityRenderer<BubbleEntity, BubbleRen
 
 	@Override
 	public Identifier getTexture(BubbleRenderState state) {
+		if (Config.bubbleQuality == Config.ModelQuality.FAST) return BASE_TEXTURE_FAST;
+		if (Config.bubbleQuality == Config.ModelQuality.PLAIN) return BASE_TEXTURE_SIMPLE;
 		if (isMedium(state)) return BASE_TEXTURE_MEDIUM;
 		return BASE_TEXTURE_SMALL;
 	}
@@ -106,6 +114,8 @@ public class BubbleRenderer extends LivingEntityRenderer<BubbleEntity, BubbleRen
 	}
 
 	public BubbleModelAbstract getModel(BubbleRenderState state) {
+		if (Config.bubbleQuality == Config.ModelQuality.FAST) return this.model_fast;
+		if (Config.bubbleQuality == Config.ModelQuality.PLAIN) return this.model_simple;
 		if (isMedium(state)) return this.model_medium;
 		return this.model;
 	}

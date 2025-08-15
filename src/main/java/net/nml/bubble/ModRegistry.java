@@ -6,6 +6,7 @@ import java.util.function.Function;
 
 import com.mojang.serialization.Codec;
 
+import eu.midnightdust.lib.config.MidnightConfig;
 import net.fabricmc.fabric.api.itemgroup.v1.ItemGroupEvents;
 import net.fabricmc.fabric.api.object.builder.v1.block.entity.FabricBlockEntityTypeBuilder;
 import net.fabricmc.fabric.api.object.builder.v1.entity.FabricDefaultAttributeRegistry;
@@ -177,5 +178,7 @@ public class ModRegistry {
 		FabricDefaultAttributeRegistry.register(BUBBLE, BubbleEntity.createLivingAttributes());
 		ItemGroupEvents.modifyEntriesEvent(ItemGroups.TOOLS).register(content -> content.add(BUBBLE_WAND));
 		ItemGroupEvents.modifyEntriesEvent(ItemGroups.REDSTONE).register(content -> content.add(BUBBLE_DISPENSER.asItem()));
+
+		MidnightConfig.init(BlowingBubbles.MOD_ID, Config.class);
 	}
 }

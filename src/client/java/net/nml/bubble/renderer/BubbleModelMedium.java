@@ -13,7 +13,7 @@ import net.nml.bubble.BlowingBubbles;
 
 public class BubbleModelMedium extends BubbleModelAbstract {
 	public static final EntityModelLayer LAYER = new EntityModelLayer(
-			Identifier.of(BlowingBubbles.MOD_ID, "bubble_md"), "main");
+			Identifier.of(BlowingBubbles.MOD_ID, "bubble_medium"), "main");
 
 	public BubbleModelMedium(ModelPart root) {
 		super(root);

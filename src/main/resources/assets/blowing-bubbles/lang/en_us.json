@@ -26,5 +26,14 @@
 	"item.blowing-bubbles.brown_bubble_block": "Brown Bubble Block",
 	"item.blowing-bubbles.green_bubble_block": "Green Bubble Block",
 	"item.blowing-bubbles.red_bubble_block": "Red Bubble Block",
-	"item.blowing-bubbles.black_bubble_block": "Black Bubble Block"
+	"item.blowing-bubbles.black_bubble_block": "Black Bubble Block",
+	
+	"blowing-bubbles.midnightconfig.title": "Blowing Bubbles Config",
+	"blowing-bubbles.midnightconfig.category.client": "Client",
+	"blowing-bubbles.midnightconfig.bubbleQuality": "Bubble Model Quality",
+	"blowing-bubbles.midnightconfig.bubbleQuality.tooltip": "Changes the complexity of the bubble model\n\nFast: Cube\nPlain: Cube, but circle\nSimple: A nice, simple bubble\nQuality: Bigger bubbles get more complex",
+	"blowing-bubbles.midnightconfig.enum.ModelQuality.FAST": "Fast",
+	"blowing-bubbles.midnightconfig.enum.ModelQuality.PLAIN": "Plain",
+	"blowing-bubbles.midnightconfig.enum.ModelQuality.SIMPLE": "Simple",
+	"blowing-bubbles.midnightconfig.enum.ModelQuality.QUALITY": "Quality"
 }

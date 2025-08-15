@@ -14,8 +14,10 @@ import net.minecraft.client.render.BlockRenderLayer;
 import net.minecraft.util.Identifier;
 import net.minecraft.util.Pair;
 import net.nml.bubble.block.BubbleBlock;
+import net.nml.bubble.renderer.BubbleModelFast;
 // import net.nml.bubble.datagen.BubbleBlockConnectionPredicate;
 import net.nml.bubble.renderer.BubbleModelMedium;
+import net.nml.bubble.renderer.BubbleModelSimple;
 import net.nml.bubble.renderer.BubbleModelSmall;
 import net.nml.bubble.renderer.BubbleRenderer;
 
@@ -24,6 +26,8 @@ public class BlowingBubblesClient implements ClientModInitializer {
 	public void onInitializeClient() {
 		// FusionPredicateRegistry.registerConnectionPredicate(Identifier.of(BlowingBubbles.MOD_ID, "bubble_block"), BubbleBlockConnectionPredicate.SERIALIZER);
 
+		EntityModelLayerRegistry.registerModelLayer(BubbleModelFast.LAYER, BubbleModelFast::getTexturedModelData);
+		EntityModelLayerRegistry.registerModelLayer(BubbleModelSimple.LAYER, BubbleModelSimple::getTexturedModelData);
 		EntityModelLayerRegistry.registerModelLayer(BubbleModelSmall.LAYER, BubbleModelSmall::getTexturedModelData);
 		EntityModelLayerRegistry.registerModelLayer(BubbleModelMedium.LAYER, BubbleModelMedium::getTexturedModelData);
 		EntityRendererRegistry.register(ModRegistry.BUBBLE, BubbleRenderer::new);
