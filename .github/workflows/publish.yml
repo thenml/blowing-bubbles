@@ -1,6 +1,11 @@
 name: publish
 on: [workflow_dispatch]
 
+permissions:
+    id-token: write
+    attestations: write
+    contents: write
+
 jobs:
     publish:
         runs-on: ubuntu-latest

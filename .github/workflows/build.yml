@@ -1,6 +1,11 @@
 name: build
 on: [pull_request, push]
 
+permissions:
+    id-token: write
+    attestations: write
+    contents: write
+
 jobs:
     build:
         runs-on: ubuntu-latest
