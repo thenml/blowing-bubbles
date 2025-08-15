@@ -4,7 +4,7 @@
 
 ![Made for ModFest: Toybox](https://badger-api-staging.worldwidepixel.ca/cozy?gradientStart=841f38&gradientEnd=5b0017&lineOne=Made%20for&lineTwo=ModFest:%20Toybox&colourOne=FFFFFF&colourTwo=ff7db6&iconUrl=https://files.catbox.moe/n0xw9t)
 
-Colorfull bubbles that can you can use as platforms, blocks, and effect stations!
+Colorful bubbles that can you can use as platforms, blocks, and more!
 
 ## Features
 
