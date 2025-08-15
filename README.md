@@ -3,11 +3,10 @@
 
 # dev
 
-- todo: custom pop particle
 - todo: blow sound
 - todo: standing on bubbles is still buggy
 - todo: optimize entities
-- todo: use datagen
+- refactor: use datagen
 - bug: reload (unload) desync
 - bug: heart particles when hitting duration 0 bubbles
 - bug: can enter small bubbles when swimming

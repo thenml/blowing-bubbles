@@ -25,7 +25,6 @@ import net.minecraft.entity.data.TrackedDataHandlerRegistry;
 import net.minecraft.entity.effect.StatusEffectInstance;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.ItemStack;
-import net.minecraft.particle.ParticleTypes;
 import net.minecraft.server.world.ServerWorld;
 import net.minecraft.storage.ReadView;
 import net.minecraft.storage.WriteView;
@@ -68,7 +67,7 @@ public class BubbleEntity extends LivingEntity {
 	public void tick() {
 		if (this.isDead()) {
 			if (!this.getWorld().isClient) {
-				((ServerWorld) this.getWorld()).spawnParticles(ParticleTypes.BUBBLE_POP,
+				((ServerWorld) this.getWorld()).spawnParticles(new PopParticleEffect(this.getColor(), this.getSize()), 
 						this.getX(), this.getY() + 0.25, this.getZ(),
 						1, 0, 0, 0, 0);
 			}

@@ -7,13 +7,13 @@ import net.minecraft.block.BlockState;
 import net.minecraft.block.ShapeContext;
 import net.minecraft.block.Stainable;
 import net.minecraft.block.TransparentBlock;
-import net.minecraft.particle.ParticleTypes;
 import net.minecraft.server.world.ServerWorld;
 import net.minecraft.util.DyeColor;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.shape.VoxelShape;
 import net.minecraft.util.shape.VoxelShapes;
 import net.minecraft.world.BlockView;
+import net.nml.bubble.PopParticleEffect;
 
 public class BubbleBlock extends TransparentBlock implements Stainable {
 	public static final MapCodec<BubbleBlock> CODEC = RecordCodecBuilder.mapCodec(
@@ -43,8 +43,7 @@ public class BubbleBlock extends TransparentBlock implements Stainable {
 	@Override
 	protected void onStateReplaced(BlockState state, ServerWorld world, BlockPos pos, boolean moved) {
 		super.onStateReplaced(state, world, pos, moved);
-		// TODO: particle
-		world.spawnParticles(ParticleTypes.BUBBLE_POP,
+		world.spawnParticles(new PopParticleEffect(this.getColor().getEntityColor(), 1.7f),
 			pos.getX() + 0.5, pos.getY() + 0.5, pos.getZ() + 0.5,
 			1, 0, 0, 0, 0);
 	}

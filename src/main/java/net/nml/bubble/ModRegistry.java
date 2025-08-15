@@ -9,6 +9,7 @@ import com.mojang.serialization.Codec;
 import net.fabricmc.fabric.api.itemgroup.v1.ItemGroupEvents;
 import net.fabricmc.fabric.api.object.builder.v1.block.entity.FabricBlockEntityTypeBuilder;
 import net.fabricmc.fabric.api.object.builder.v1.entity.FabricDefaultAttributeRegistry;
+import net.fabricmc.fabric.api.particle.v1.FabricParticleTypes;
 import net.minecraft.block.AbstractBlock;
 import net.minecraft.block.Block;
 import net.minecraft.block.Blocks;
@@ -25,6 +26,8 @@ import net.minecraft.item.BlockItem;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemGroups;
 import net.minecraft.item.Items;
+import net.minecraft.particle.ParticleEffect;
+import net.minecraft.particle.ParticleType;
 import net.minecraft.recipe.RecipeSerializer;
 import net.minecraft.recipe.SpecialCraftingRecipe;
 import net.minecraft.registry.Registries;
@@ -97,6 +100,8 @@ public class ModRegistry {
 		ComponentType.<BubbleWandEffectsComponent>builder().codec(BubbleWandEffectsComponent.CODEC).packetCodec(BubbleWandEffectsComponent.PACKET_CODEC).build()
 	);
 
+	public static final ParticleType<PopParticleEffect> POP_PARTICLE = particle("pop", FabricParticleTypes.complex(false, p -> PopParticleEffect.CODEC, p -> PopParticleEffect.PACKET_CODEC));
+
 
 	private static <T> RegistryKey<T> key(Registry<T> registry, String name) {
 		return RegistryKey.of(registry.getKey(), Identifier.of(BlowingBubbles.MOD_ID, name));
@@ -160,6 +165,11 @@ public class ModRegistry {
 	private static <T> ComponentType<T> enchantmentEffect(String name, Codec<T> codec) {
 		// this is probably incorrect :shrug:
 		return Registry.register(Registries.ENCHANTMENT_EFFECT_COMPONENT_TYPE, Identifier.of(BlowingBubbles.MOD_ID, name), ComponentType.<T>builder().codec(codec).build());
+	}
+
+	private static <T extends ParticleEffect> ParticleType<T> particle(String name, ParticleType<T> p) {
+		Registry.register(Registries.PARTICLE_TYPE, Identifier.of(BlowingBubbles.MOD_ID, name), p);
+		return p;
 	}
 
 

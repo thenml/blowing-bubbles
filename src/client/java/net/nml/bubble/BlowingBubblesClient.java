@@ -3,6 +3,7 @@ package net.nml.bubble;
 // import com.supermartijn642.fusion.api.predicate.FusionPredicateRegistry;
 
 import net.fabricmc.api.ClientModInitializer;
+import net.fabricmc.fabric.api.client.particle.v1.ParticleFactoryRegistry;
 import net.fabricmc.fabric.api.client.rendering.v1.BlockRenderLayerMap;
 import net.fabricmc.fabric.api.client.rendering.v1.ColorProviderRegistry;
 import net.fabricmc.fabric.api.client.rendering.v1.EntityModelLayerRegistry;
@@ -27,6 +28,7 @@ public class BlowingBubblesClient implements ClientModInitializer {
 		EntityModelLayerRegistry.registerModelLayer(BubbleModelMedium.LAYER, BubbleModelMedium::getTexturedModelData);
 		EntityRendererRegistry.register(ModRegistry.BUBBLE, BubbleRenderer::new);
 		HudElementRegistry.attachElementAfter(VanillaHudElements.BOSS_BAR, Identifier.of(BlowingBubbles.MOD_ID, "bubble_size_indicator"), new BubbleSizeIndicatorHUD());
+		ParticleFactoryRegistry.getInstance().register(ModRegistry.POP_PARTICLE, PopParticle.Factory::new);
 
 		for (Pair<BubbleBlock, String> pair : ModRegistry.BUBBLE_BLOCKS) {
 			BubbleBlock block = pair.getLeft();
