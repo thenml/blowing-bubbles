@@ -40,6 +40,6 @@
 		"midnightlib": "*"
 	},
 	"recommends": {
-		"fusion": "*"
+		"fusion-connected-textures": "*"
 	}
 }

@@ -31,7 +31,6 @@ import net.minecraft.storage.WriteView;
 import net.minecraft.util.Arm;
 import net.minecraft.util.Pair;
 import net.minecraft.util.math.BlockPos;
-import net.minecraft.util.math.Box;
 import net.minecraft.util.math.ColorHelper;
 import net.minecraft.util.math.MathHelper;
 import net.minecraft.util.math.Vec3d;
@@ -68,17 +67,15 @@ public class BubbleEntity extends LivingEntity {
 		if (this.isDead()) {
 			if (!this.getWorld().isClient) {
 				((ServerWorld) this.getWorld()).spawnParticles(new PopParticleEffect(this.getColor(), this.getSize()), 
-						this.getX(), this.getY() + 0.25, this.getZ(),
-						1, 0, 0, 0, 0);
+				this.getX(), this.getY() + 0.25, this.getZ(),
+				1, 0, 0, 0, 0);
 			}
 			this.remove(Entity.RemovalReason.KILLED);
 			return;
 		}
-
-		if (!this.hasPassengers() && !this.getWorld().isClient) {
-			this.calculateEntityInteractions();
-		}
+		
 		super.tick();
+		if (this.getWorld().isClient) return;
 		this.setAir(0);
 
 		int duration = this.getDuration();
@@ -134,7 +131,9 @@ public class BubbleEntity extends LivingEntity {
 	
 	@Override
 	public boolean isCollidable(@Nullable Entity entity) {
-		return entity != null && entity.isLiving() && this.isAlive() && entity.getPos().y >= this.getBoundingBox().maxY && entity.getWidth() < this.getWidth();
+		boolean r = entity != null && this.canEntityInteract(entity) && this.canEntityStand(entity, (float)this.getVelocity().y);
+		this.dataTracker.set(HAS_ENTITY_ON_TOP, r);
+		return r;
 	}
 
 	@Override
@@ -144,6 +143,17 @@ public class BubbleEntity extends LivingEntity {
 
 	@Override
 	public void pushAwayFrom(Entity entity) {
+		if (!this.canEntityInteract(entity) || this.getWorld().isClient) return;
+		if (this.canEntityStand(entity, entity.getStepHeight())) {
+			// TODO 1.1
+		} else if (this.canEntityEnter(entity)) {
+			entity.startRiding(this, true);
+		} else {
+			// double v = MathHelper.clamp(Math.max(entity.getHeight(), entity.getWidth()) - this.getWidth(), 0.0, 1.0);
+			// this.setTime(v == 1.0 ? this.getDuration() : this.getTime() + (int)(100 * v));
+			this.setTime(this.getDuration());
+			entity.setAir(entity.getMaxAir());
+		}
 	}
 
 	@Override
@@ -153,8 +163,8 @@ public class BubbleEntity extends LivingEntity {
 	public boolean canEntityInteract(Entity entity) {
 		return !entity.noClip && entity.isLiving() && !entity.hasVehicle() && !(entity instanceof BubbleEntity);
 	}
-	public boolean canEntityStand(Entity entity, Box box) {
-		return entity.getWidth() < this.getWidth() && box.expand(entity.getWidth(), entity.getStepHeight(), entity.getWidth()).contains(entity.getPos());
+	public boolean canEntityStand(Entity entity, float stepHeight) {
+		return entity.getWidth() < this.getWidth() && entity.getY() + stepHeight >= this.getY() + this.getHeight();
 	}
 	public boolean canEntityEnter(Entity entity) {
 		return Math.max(entity.getHeight(), entity.getWidth()) + 0.1 <= this.getWidth() && !this.hasPassengers();
@@ -162,29 +172,6 @@ public class BubbleEntity extends LivingEntity {
 
 	public boolean hasEntityOnTop() {
 		return this.dataTracker.get(HAS_ENTITY_ON_TOP);
-	}
-
-	private void calculateEntityInteractions() {
-		this.dataTracker.set(HAS_ENTITY_ON_TOP, false);
-		
-		Box box = this.getBoundingBox();
-		Box topBox = new Box(box.minX, box.maxY - 0.1, box.minZ, box.maxX, box.maxY + this.getVelocity().y, box.maxZ);
-		for (Entity entity : this.getWorld().getOtherEntities(this, box, (entityx -> this.canEntityInteract(entityx)))) {
-			if (this.canEntityStand(entity, topBox)) {
-				double offset = box.maxY - entity.getY();
-				Vec3d velocity = new Vec3d(0, offset, 0);
-				entity.move(MovementType.SELF, velocity);
-				entity.setOnGround(true);
-				this.dataTracker.set(HAS_ENTITY_ON_TOP, true);
-			} else if (this.canEntityEnter(entity)) {
-				entity.startRiding(this);
-			} else {
-				// double v = MathHelper.clamp(Math.max(entity.getHeight(), entity.getWidth()) - this.getWidth(), 0.0, 1.0);
-				// this.setTime(v == 1.0 ? this.getDuration() : this.getTime() + (int)(100 * v));
-				this.setTime(this.getDuration());
-				entity.setAir(entity.getMaxAir());
-			}
-		}
 	}
 
 	@Override
@@ -386,7 +373,7 @@ public class BubbleEntity extends LivingEntity {
 	@Override
 	protected void onBlockCollision(BlockState state) {
 		super.onBlockCollision(state);
-		if (state.isOf(Blocks.HONEY_BLOCK)) {
+		if (!this.getWorld().isClient && state.isOf(Blocks.HONEY_BLOCK)) {
 			this.setTime(this.getTime() + 2);
 			this.setVelocity(this.getVelocity().multiply(0.5));
 			if (this.getTime() >= this.getDuration() - 10) {

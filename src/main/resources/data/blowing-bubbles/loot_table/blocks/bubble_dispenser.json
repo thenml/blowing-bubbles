@@ -1,0 +1,21 @@
+{
+  "type": "block",
+  "pools": [
+    {
+      "bonus_rolls": 0.0,
+      "conditions": [
+        {
+          "condition": "survives_explosion"
+        }
+      ],
+      "entries": [
+        {
+          "type": "item",
+          "name": "blowing-bubbles:bubble_dispenser"
+        }
+      ],
+      "rolls": 1.0
+    }
+  ],
+  "random_sequence": "blowing-bubbles:blocks/bubble_dispenser"
+}

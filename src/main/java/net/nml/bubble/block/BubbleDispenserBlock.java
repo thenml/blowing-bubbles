@@ -50,7 +50,7 @@ public class BubbleDispenserBlock extends BlockWithEntity {
 	@Override
 	protected ActionResult onUse(BlockState state, World world, BlockPos pos, PlayerEntity player, BlockHitResult hit) {
 		if (!world.isClient) {
-			// TODO: spam protection
+			// TODO 1.1
 			this.dispense(world, pos, state, state.get(PROGRESS), player.getRandom());
 			world.setBlockState(pos, state.with(PROGRESS, 0));
 		}
@@ -106,7 +106,7 @@ public class BubbleDispenserBlock extends BlockWithEntity {
 		bubble.setVelocity(x * speed, y * speed, z * speed);
 		bubble.calculateDimensions();
 
-		// TODO: bubble effects
+		// TODO 1.1 bubble effects
 		// if (BubbleWandEffectsComponent.getColor(stack).isPresent()) {
 		// 	bubble.setCustomColor(BubbleWandEffectsComponent.getColor(stack).get());
 		// } else if (BubbleWandEffectsComponent.getRainbow(stack)) {

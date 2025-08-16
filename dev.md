@@ -3,20 +3,14 @@
 
 # dev
 
-- todo: blow sound
-- todo: standing on bubbles is still buggy
-- todo: optimize entities
 - refactor: use datagen
-- bug: reload (unload) desync
 - bug: heart particles when hitting duration 0 bubbles
 - bug: can enter small bubbles when swimming
-- todo: todos
 
 ## rendering issues
 
 can @anyone help please
 
-- bubble glint renders in the center of the bubble: can render behind riders and messes up view from inside
 - bubble opacity renders behind player, water, etc
 
 # tasklist

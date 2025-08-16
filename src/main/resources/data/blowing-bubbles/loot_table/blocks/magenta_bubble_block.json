@@ -17,5 +17,5 @@
 		"rolls": 1.0
 	  }
 	],
-	"random_sequence": "blocks/cobblestone"
+	"random_sequence": "blowing-bubbles:blocks/magenta_bubble_block"
 }

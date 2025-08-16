@@ -136,8 +136,8 @@ public class ModRegistry {
 	private static Block bubbleBlock(String name, DyeColor color) {
 		Block block = block(name, settings -> new BubbleBlock(color, settings),
 			AbstractBlock.Settings.create()
-				.breakInstantly() // TODO: temp, it crashes otherwise
-				.sounds(BlockSoundGroup.SLIME) // TODO: temp
+				.hardness(0.1f)
+				.sounds(BlockSoundGroup.SLIME) // TODO 1.1
 				.instrument(NoteBlockInstrument.HAT)
 				.pistonBehavior(PistonBehavior.DESTROY)
 				.solid()

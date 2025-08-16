@@ -34,47 +34,50 @@ public class BubbleRenderer extends LivingEntityRenderer<BubbleEntity, BubbleRen
 	@Override
 	public void render(BubbleRenderState state, MatrixStack matrices, VertexConsumerProvider vertex, int light) {
 		// shine texture
-		float shineScale = getScale(state);
-		matrices.push();
-		matrices.scale(shineScale, shineScale, shineScale);
-		matrices.translate(0.0, 0.25, 0);
-		matrices.multiply(this.dispatcher.getRotation());
-		matrices.scale(0.5f, 0.5f, 0.5f);
-		// TODO: this renders behind entities in the bubble
+		if (state.squaredDistanceToCamera >= state.width * state.width / 2f) {
+			float shineScale = getScale(state);
+			matrices.push();
+			matrices.scale(shineScale, shineScale, shineScale);
+			matrices.translate(0.0, 0.25, 0);
+			matrices.multiply(this.dispatcher.getRotation());
+			matrices.scale(0.5f, 0.5f, 0.5f);
+			
+			MatrixStack.Entry positionMatrix = matrices.peek();
+			MatrixStack.Entry normalMatrix = matrices.peek();
 
-		MatrixStack.Entry positionMatrix = matrices.peek();
-		MatrixStack.Entry normalMatrix = matrices.peek();
-
-		VertexConsumer shineConsumer = vertex.getBuffer(RenderLayer.getEnergySwirl(SHINE_TEXTURE, 0, 0)); // idk and idc
-
-		float[][] vertices = {
-			{-1f, -1f, 0f, 0f, 1f},
-			{1f, -1f, 0f, 1f, 1f},
-			{1f, 1f, 0f, 1f, 0f},
-			{-1f, 1f, 0f, 0f, 0f}
-		};
-		
-		for (float[] v : vertices) {
-			shineConsumer.vertex(positionMatrix, v[0], v[1], v[2])
+			VertexConsumer shineConsumer = vertex.getBuffer(RenderLayer.getEnergySwirl(SHINE_TEXTURE, 0, 0)); // idk and idc
+			
+			float[][] vertices = {
+				{-1f, -1f, 0f, 0f, 1f},
+				{1f, -1f, 0f, 1f, 1f},
+				{1f, 1f, 0f, 1f, 0f},
+				{-1f, 1f, 0f, 0f, 0f}
+			};
+			
+			for (float[] v : vertices) {
+				shineConsumer.vertex(positionMatrix, v[0], v[1], v[2])
 				.color(shineColor(state))
 				.texture(v[3], v[4])
 				.overlay(OverlayTexture.DEFAULT_UV)
 				.light(light)
 				.normal(normalMatrix, 0, 0, -1);
-		}		
-
-		matrices.pop(); // pop shine
+			}		
+			
+			matrices.pop(); // pop shine
+		}
 		
-		// bubble		
+		// bubble
 		float bubbleScale = getBubbleScale(state);
 		matrices.push();
 		matrices.scale(bubbleScale, bubbleScale, bubbleScale);
 		// this.setupTransforms(state, matrices, state.bodyYaw, bubbleScale);
 		
-		// VertexConsumer base = vertex.getBuffer(RenderLayer.getEntityTranslucent(this.getTexture(state))); //TODO: player is invisible (look at slime?)
-		VertexConsumer base = vertex.getBuffer(RenderLayer.getEntityNoOutline(this.getTexture(state)));
-		this.getModel(state).render(matrices, base, light, OverlayTexture.DEFAULT_UV,
-		ColorHelper.withAlpha(0.5f * state.opacity, state.color));
+		VertexConsumer base = state.hasOutline
+			? vertex.getBuffer(RenderLayer.getOutline(this.getTexture(state)))
+			: vertex.getBuffer(RenderLayer.getEntityNoOutline(this.getTexture(state)));
+		//TODO: getEntityTranslucent() is making the player / water invisible
+
+		this.getModel(state).render(matrices, base, light, OverlayTexture.DEFAULT_UV, ColorHelper.withAlpha(0.5f * state.opacity, state.color));
 		
 		matrices.pop(); // pop main
 		
@@ -125,10 +128,11 @@ public class BubbleRenderer extends LivingEntityRenderer<BubbleEntity, BubbleRen
 		return new BubbleRenderState();
 	}
 	
-	public void updateRenderState(BubbleEntity entity, BubbleRenderState renderState, float tickDelta) {
-		super.updateRenderState(entity, renderState, tickDelta);
-        renderState.size = entity.getSize();
-        renderState.opacity = entity.getOpacity();
-		renderState.color = entity.getColor();
+	public void updateRenderState(BubbleEntity entity, BubbleRenderState state, float tickDelta) {
+		super.updateRenderState(entity, state, tickDelta);
+        state.size = entity.getSize();
+        state.opacity = entity.getOpacity();
+		state.color = entity.getColor();
+		state.squaredDistanceToCamera = this.dispatcher.camera.getPos().squaredDistanceTo(entity.getPos().add(0, entity.getHeight() / 2f, 0));
 	}
 }

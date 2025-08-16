@@ -1,0 +1,17 @@
+{
+	"type": "crafting_shaped",
+	"category": "redstone",
+	"key": {
+		"c": "cobblestone",
+		"r": "redstone",
+		"w": "blowing-bubbles:bubble_wand"
+	},
+	"pattern": [
+	  "ccc",
+	  "cwc",
+	  "crc"
+	],
+	"result": {
+	  "id": "blowing-bubbles:bubble_dispenser"
+	}
+}

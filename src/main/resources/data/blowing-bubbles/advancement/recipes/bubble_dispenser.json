@@ -1,0 +1,32 @@
+{
+	"parent": "recipes/root",
+	"criteria": {
+		"has_bubble_wand": {
+			"conditions": {
+				"items": [
+					{
+						"items": "blowing-bubbles:bubble_wand"
+					}
+				]
+			},
+			"trigger": "inventory_changed"
+		},
+		"has_the_recipe": {
+			"conditions": {
+				"recipe": "blowing-bubbles:bubble_dispenser"
+			},
+			"trigger": "recipe_unlocked"
+		}
+	},
+	"requirements": [
+		[
+			"has_the_recipe",
+			"has_bubble_wand"
+		]
+	],
+	"rewards": {
+		"recipes": [
+			"blowing-bubbles:bubble_dispenser"
+		]
+	}
+}

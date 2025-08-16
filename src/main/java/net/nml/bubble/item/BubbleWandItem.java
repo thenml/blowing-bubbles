@@ -70,7 +70,7 @@ public class BubbleWandItem extends Item {
 		double y = -Math.sin(Math.toRadians(pitch));
 		double z = Math.cos(Math.toRadians(yaw)) * Math.cos(Math.toRadians(pitch));
 		
-		// TODO: add same mechanic as arrows to not hit the shooter
+		// TODO 1.1: add same mechanic as arrows to not hit the shooter
 		bubble.setVelocity(x * speed, y * speed, z * speed);
 		bubble.setPosition(bubble.getPos().add(bubble.getVelocity().multiply(size * 6)));
 		bubble.calculateDimensions();
