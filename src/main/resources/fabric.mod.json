@@ -38,6 +38,13 @@
 		"java": ">=21",
 		"fabric-api": "*",
 		"midnightlib": "*",
-		"fusion-connected-textures": "*"
+		"fusion": "*"
+	},
+	"custom": {
+	  "mc-publish": {
+		"dependencies": [
+		  "fusion-connected-textures(required)"
+		]
+	  }
 	}
 }
