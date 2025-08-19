@@ -42,3 +42,9 @@ jobs:
                   path: |
                       build/libs/*.jar
                       !build/libs/*-sources.jar
+
+            - name: Publish
+              uses: Kir-Antipov/mc-publish@v3.3
+              with:
+                  modrinth-id: Bezt1FXL
+                  modrinth-token: ${{ secrets.MODRINTH_TOKEN }}
